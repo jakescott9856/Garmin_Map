@@ -86,6 +86,9 @@ def get_dataframes(fname: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     
     return laps_df, points_df
 
+def csv_file_exists(csv_filepath):
+    return os.path.isfile(csv_filepath)
+
 if __name__ == '__main__':
     FIT_path = 'C:\\Users\\jaket\\Python Projects\\Garmin_Map\\FIT_files'
     CSV_path = 'C:\\Users\\jaket\\Python Projects\\Garmin_Map\\CSV_files'
@@ -100,14 +103,21 @@ if __name__ == '__main__':
     # Process each FIT file
     for fname in FIT_filenames:
         num_current += 1
-        print('Working on: '+ fname + ' ('+str(num_current)+'/'+num_files+')')
         full_path = os.path.join(FIT_path, fname)
-        laps_df, points_df = get_dataframes(full_path)
-        
-        # Save the points DataFrame to CSV
+
+        # Check if corresponding CSV file already exists
         csv_filename = f'{os.path.splitext(fname)[0]}.csv'
         csv_filepath = os.path.join(CSV_path, csv_filename)
-        points_df.to_csv(csv_filepath, index=False)
+        if csv_file_exists(csv_filepath):
+            print(f'Skipping {csv_filename} - CSV file already exists.' + ' ('+str(num_current)+'/'+num_files+')')
+        else:
+            print('Working on: '+ fname + ' ('+str(num_current)+'/'+num_files+')')
+            laps_df, points_df = get_dataframes(full_path)
+        
+            # Save the points DataFrame to CSV
+            csv_filename = f'{os.path.splitext(fname)[0]}.csv'
+            csv_filepath = os.path.join(CSV_path, csv_filename)
+            points_df.to_csv(csv_filepath, index=False)
 
     print('')
     print('-------- Done --------')
