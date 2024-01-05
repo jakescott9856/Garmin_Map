@@ -89,9 +89,11 @@ def get_dataframes(fname: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
 def csv_file_exists(csv_filepath):
     return os.path.isfile(csv_filepath)
 
+User = 'JS'
+
 if __name__ == '__main__':
-    FIT_path = 'C:\\Users\\jaket\\Python Projects\\Garmin_Map\\FIT_files'
-    CSV_path = 'C:\\Users\\jaket\\Python Projects\\Garmin_Map\\CSV_files'
+    FIT_path = 'C:\\Users\\jaket\\Python Projects\\Garmin_Map\\'+ str(User)+'\\FIT_files'
+    CSV_path = 'C:\\Users\\jaket\\Python Projects\\Garmin_Map\\'+ str(User)+'\\CSV_files'
 
     # Get a list of filenames in the specified folder
     FIT_filenames = [filename for filename in os.listdir(FIT_path) if os.path.isfile(os.path.join(FIT_path, filename))]
@@ -111,7 +113,7 @@ if __name__ == '__main__':
         if csv_file_exists(csv_filepath):
             print(f'Skipping {csv_filename} - CSV file already exists.' + ' ('+str(num_current)+'/'+num_files+')')
         else:
-            print('Working on: '+ fname + ' ('+str(num_current)+'/'+num_files+')')
+            print('Working on:'+User+' '+ fname + ' ('+str(num_current)+'/'+num_files+')')
             laps_df, points_df = get_dataframes(full_path)
         
             # Save the points DataFrame to CSV
