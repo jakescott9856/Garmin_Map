@@ -89,7 +89,7 @@ def csv_file_exists(csv_filepath):
     return os.path.isfile(csv_filepath)
 
 #Enter user here
-User = 'SS'
+User = 'JS'
 
 if __name__ == '__main__':
     #Filepaths to folders
