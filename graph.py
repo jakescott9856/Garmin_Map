@@ -3,7 +3,7 @@ import folium
 import pandas as pd
 
 # Enter user here
-User = 'KD'
+User = 'JS'
 
 # Filepaths to folders, list files and count files
 User_path = 'C:\\Users\\jaket\\Python Projects\\Garmin_Map\\' + str(User)
