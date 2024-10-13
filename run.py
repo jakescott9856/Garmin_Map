@@ -3,5 +3,5 @@ import graph
 
 User = 'JS'
 
-parse_fit.fitmain(User)
-graph.graphmain(User)
+parse_fit.main(User)
+graph.main(User)

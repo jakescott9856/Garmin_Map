@@ -1,5 +1,5 @@
 
-def graphmain(User):
+def main(User):
     import os
     import folium
     import pandas as pd
