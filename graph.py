@@ -1,8 +1,11 @@
 
-def main(User):
+def main(User,Map_display,Red_modified):
     import os
     import folium
     import pandas as pd
+    from datetime import datetime
+
+    Red_modified_date = datetime.strptime(Red_modified, '%d/%m/%Y')
 
     # Filepaths to folders, list files and count files
     User_path = 'C:\\Users\\jaket\\Python Projects\\Garmin_Map\\' + str(User)
@@ -11,8 +14,7 @@ def main(User):
     num_files = str(len(CSV_filenames))
     num_current = 0
 
-    # Find the last modified file
-    last_modified_file = max(CSV_filenames, key=lambda x: os.path.getmtime(os.path.join(CSV_path, x)))
+    
 
     # Create a map centered about lat long
     map_center = [52.1936, -2.7216]
@@ -28,30 +30,31 @@ def main(User):
         num_current += 1
         print('Graphing: ' + User + ' ' + fname + ' (' + str(num_current) + '/' + num_files + ')')
         full_path = os.path.join(CSV_path, fname)
-
+        mod_time = datetime.fromtimestamp(os.path.getmtime(full_path))
         # Optional: read and display metadata
         metadata = pd.read_csv(full_path, nrows=1, header=None)
         activity = metadata.iloc[0,1].lower() if metadata.shape[1] > 1 else ''
        
         df = extract_latlon(full_path)
-
-        if 'cycling' in activity:
-            line_color = 'blue'
-        elif 'sailing' in activity or 'kayaking' in activity or 'boating' in activity:
-            line_color = 'white'
-        elif 'running' in activity or 'walking' in activity or 'hiking' in activity:
-            line_color = 'green'
+        if mod_time > Red_modified_date:
+            line_color = 'red'
         else:
-            line_color = 'black'
-            unknown_activity_list.append(full_path)
-        folium.PolyLine(
-            locations=df.values,
-            color=line_color,
-        ).add_to(my_map)
+            if 'cycling' in activity:
+                line_color = 'blue'
+            elif 'sailing' in activity or 'kayaking' in activity or 'boating' in activity:
+                line_color = 'white'
+            elif 'running' in activity or 'walking' in activity or 'hiking' in activity:
+                line_color = 'green'
+            else:
+                line_color = 'black'
+                unknown_activity_list.append(full_path)
+        
+        if Map_display == 'Cycling':
+            if 'cycling' in activity:
+                folium.PolyLine(locations=df.values,color=line_color,).add_to(my_map)
 
-    # Plot line for the last modified file
-    full_path = os.path.join(CSV_path, last_modified_file)
-    df = extract_latlon(full_path)
+        if Map_display == 'All':
+            folium.PolyLine(locations=df.values,color=line_color,).add_to(my_map)
 
     # Save the map to an HTML file
     print(unknown_activity_list)
