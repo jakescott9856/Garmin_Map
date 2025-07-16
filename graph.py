@@ -45,6 +45,8 @@ def main(User,Map_display,Red_modified):
                 line_color = 'white'
             elif 'running' in activity or 'walking' in activity or 'hiking' in activity:
                 line_color = 'green'
+            elif 'swimming' in activity:
+                line_color = 'purple'
             else:
                 line_color = 'black'
                 unknown_activity_list.append(full_path)
