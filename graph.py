@@ -41,7 +41,7 @@ def main(User,Map_display,Red_modified):
         else:
             if 'cycling' in activity:
                 line_color = 'blue'
-            elif 'sailing' in activity or 'kayaking' in activity or 'boating' in activity:
+            elif 'sailing' in activity or 'kayaking' in activity or 'boating' in activity or 'rowing' in activity:
                 line_color = 'white'
             elif 'running' in activity or 'walking' in activity or 'hiking' in activity:
                 line_color = 'green'
